@@ -10,9 +10,8 @@ python -c 'proxy = raw_input("Enter proxy name (blank if none): "); oF = open("/
 
 pip install requests --upgrade
 
-apt-get update
-apt-get -y upgrade
-apt-get install linux-headers-$(uname -r)
+apt update
+apt -y upgrade
 
 mv index.php /var/www/html/
 mv upload.php /var/www/html/
@@ -27,7 +26,8 @@ chattr +i ~/payloads/*
 echo "Turning on audio"
 systemctl --user enable pulseaudio && systemctl --user start pulseaudio
 
-gtg=0
+#Set to skip by default while it's broken
+gtg=1
 until [ $gtg -eq 1 ]; do
  echo -n "Would you like to install Virtualbox? [y/n]: "
  read pick
@@ -80,7 +80,7 @@ gtg=0
 until [ $gtg -eq 1 ]; do
  echo -n "Would you like to install MetasploitPro? [y/n]: "
  read pick
- if [ $pick == "y" ] || [ $pick == 'Y" ]; then
+ if [ $pick == "y" ] || [ $pick == "Y" ]; then
   wget http://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run
   chmod +x metasploit-latest-linux-x64-installer.run
   ./metasploit-latest-linux-x64-installer.run
