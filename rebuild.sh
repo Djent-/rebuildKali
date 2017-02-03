@@ -10,6 +10,10 @@ python -c 'proxy = raw_input("Enter proxy name (blank if none): "); oF = open("/
 
 pip install requests --upgrade
 
+grep "^deb http://http.kali.org/kali" /etc/apt/sources.list
+if [ $? != 0 ]; then
+ echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list
+fi
 apt update
 apt -y upgrade
 
@@ -26,8 +30,7 @@ chattr +i ~/payloads/*
 echo "Turning on audio"
 systemctl --user enable pulseaudio && systemctl --user start pulseaudio
 
-#Set to skip by default while it's broken
-gtg=1
+gtg=0
 until [ $gtg -eq 1 ]; do
  echo -n "Would you like to install Virtualbox? [y/n]: "
  read pick
