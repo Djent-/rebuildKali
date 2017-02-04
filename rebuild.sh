@@ -96,5 +96,5 @@ until [ $gtg -eq 1 ]; do
  fi
 done
 
-echo "You should probably reboot now."
-echo "Thanks for riding the pwn train. Have a nice day!"
+printf "\n\t***You should probably reboot now.***\n"
+printf "\tThanks for riding the pwn train. Have a nice day!\n\n"
