@@ -27,8 +27,22 @@ echo "File uploads set up. Run 'service apache2 start' in the terminal and brows
 mv payloads/ ~/
 chattr +i ~/payloads/*
 
-echo "Turning on audio"
-systemctl --user enable pulseaudio && systemctl --user start pulseaudio
+printf "\nPulseaudio causes problems with some machines, resulting in an inability to login to the Desktop Interface"
+gtg=0
+until [ $gtg -eq 1 ]; do
+ echo "Would you like to continue with enabling pulseaudio? [y/n]: "
+ read pick
+ if [ $pick == "y" ] || [ $pick == "Y" ]; then
+  echo "Enabling and starting pulseaudio"
+  echo "If this causes problems with login, switch to a different tty and disable pulseaudio"
+  systemctl --user enable pulseaudio && systemctl --user start pulseaudio
+ elif [ $pick == "n" ] || [ $pick == "N" ]; then
+  echo "Skipping the pulseaudio setup..."
+  gtg=1
+ else
+  echo "Invalid option!"
+ fi
+done
 
 gtg=0
 until [ $gtg -eq 1 ]; do
