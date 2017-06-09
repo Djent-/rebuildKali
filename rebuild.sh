@@ -61,6 +61,21 @@ done
 
 gtg=0
 until [ $gtg -eq 1 ]; do
+ echo -n "Would you like to install VMWare Tools? [y/n]: "
+ read pick
+ if [ $pick == "y" ] || [ $pick == "Y" ]; then
+  apt-get -y install open-vm-tools-desktop fuse
+  gtg=1
+ elif [ $pick == "n" ] || [ $pick == "N" ]; then
+  echo "Skipping VMWare tools install..."
+  gtg=1
+ else
+  echo "Invalid option!"
+ fi
+done
+
+gtg=0
+until [ $gtg -eq 1 ]; do
  echo -n "Would you like to install Empire? [y/n]: "
  read pick
  if [ $pick == "y" ] || [ $pick == "Y"]; then
