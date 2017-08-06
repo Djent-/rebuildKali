@@ -16,6 +16,7 @@ if [ $? != 0 ]; then
 fi
 apt update
 apt -y upgrade
+apt -y install shutter
 
 mv index.php /var/www/html/
 mv upload.php /var/www/html/
@@ -27,7 +28,7 @@ echo "File uploads set up. Run 'service apache2 start' in the terminal and brows
 mv payloads/ ~/
 chattr +i ~/payloads/*
 
-printf "\nPulseaudio causes problems with some machines, resulting in an inability to login to the Desktop Interface"
+printf "\nPulseaudio causes problems with some machines, resulting in an inability to login to the Desktop Interface\n"
 gtg=0
 until [ $gtg -eq 1 ]; do
  echo "Would you like to continue with enabling pulseaudio? [y/n]: "
