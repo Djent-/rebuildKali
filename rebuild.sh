@@ -28,10 +28,12 @@ echo "File uploads set up. Run 'service apache2 start' in the terminal and brows
 mv payloads/ ~/
 chattr +i ~/payloads/*
 
+cd ~/Desktop
+
 printf "\nPulseaudio causes problems with some machines, resulting in an inability to login to the Desktop Interface\n"
 gtg=0
 until [ $gtg -eq 1 ]; do
- echo "Would you like to continue with enabling pulseaudio? [y/n]: "
+ echo -n "Would you like to continue with enabling pulseaudio? [y/n]: "
  read pick
  if [ $pick == "y" ] || [ $pick == "Y" ]; then
   echo "Enabling and starting pulseaudio"
@@ -77,17 +79,18 @@ done
 
 gtg=0
 until [ $gtg -eq 1 ]; do
- echo -n "Would you like to install Empire? [y/n]: "
+ echo -n "Would you like to install Windows pwnies? [y/n]: "
  read pick
  if [ $pick == "y" ] || [ $pick == "Y"]; then
-  wget https://github.com/adaptivethreat/Empire/archive/master.zip
-  unzip master.zip
-  mv Empire-master ~/Desktop/Empire
-  ~/Desktop/Empire/setup/install.sh
-  rm master.zip
+  git clone https://github.com/EmpireProject/Empire.git
+  cd Empire/setup
+  ./install.sh
+  cd ~/Desktop
+  git clone https://github.com/PowerShellMafia/PowerSploit.git
+  git clone https://github.com/fireeye/SessionGopher.git
   gtg=1
  elif [ $pick == "n" ] || [ $pick == "N" ]; then
-  echo "Skipping Empire install..."
+  echo "Skipping Windows stuff install..."
   gtg=1
  else
   echo "Invalid option!"
